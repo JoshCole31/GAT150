@@ -25,6 +25,8 @@
 #include "Framework/EventSystem.h"
 
 //graphics
+#include"Graphics/Renderer.h"
+#include"Graphics/Texture.h"
 
 #include "Resource/ResourceSystem.h"
 
