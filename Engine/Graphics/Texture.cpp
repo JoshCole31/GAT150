@@ -27,4 +27,14 @@ namespace jc {
 		}
 		return true;
 	}
+
+
+	Vector2 Texture::GetSize()const
+	{
+		SDL_Point point; 
+		SDL_QueryTexture(texture, nullptr, nullptr, &point.x, &point.y);
+		
+		return Vector2{ point.x,point.y };
+	}
+
 }

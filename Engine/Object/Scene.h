@@ -9,11 +9,13 @@ namespace jc
 {
 	class Actor;
 	class Engine;
+	//class Renderer;
+
 	class Scene : public Object
 	{
 	public:
 		void Update(float dt);
-		void Draw();
+		void Draw(class Renderer* renderer); //can do the class here 
 
 		void Addactor(std::unique_ptr<Actor> actor);
 		void RemoveActor(Actor* actor);

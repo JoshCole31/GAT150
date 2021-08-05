@@ -9,20 +9,22 @@ namespace jc
 		if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		{
 			std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		
 		}
 		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 	}
+
 	void Renderer::Shutdown()
 	{
 		IMG_Quit();
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(window);
 	}
+
 	void Renderer::Update(float dt)
 	{
 
 	}
+
 	void Renderer::Create(const std::string& name, int width, int height)
 	{
 		window = SDL_CreateWindow(name.c_str(), 100, 100, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -34,18 +36,40 @@ namespace jc
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
 	}
+
 	void Renderer::BeginFrame()
 	{
 		SDL_RenderClear(renderer);
 
 	}
+
 	void Renderer::endFrame()
 	{
 		SDL_RenderPresent(renderer);
 	}
-	void Renderer::Draw(std::shared_ptr<jc::Texture> texture, const Vector2& position)
+
+	void Renderer::Draw(std::shared_ptr<jc::Texture> texture, const Vector2& position, float angle, const Vector2& scale)
 	{
-		SDL_Rect dest{ (int)position.x,(int)position.y,64,96 };
-		SDL_RenderCopy(renderer, texture->texture,nullptr,&dest);
+		Vector2 size = texture->GetSize();
+		size = size * scale;
+
+		SDL_Rect dest{ (int)position.x,(int)position.y,static_cast<int>(size.x),static_cast<int>(size.y)};
+
+		/*SDL_FLIP_HORIZONTAL =0001
+		SDL_FLIP_VERTICAL = 0010
+				flip	  =0011*/
+		
+		SDL_RenderCopyEx(renderer, texture->texture,nullptr,&dest,angle,nullptr,SDL_FLIP_HORIZONTAL);
 	}
+
+	void Renderer::Draw(std::shared_ptr<jc::Texture> texture, const Transform& transform)
+	{
+		Vector2 size = texture->GetSize();
+		size = size * transform.scale;
+
+		SDL_Rect dest{ (int)transform.position.x,(int)transform.position.y,static_cast<int>(size.x),static_cast<int>(size.y) };
+
+		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, transform.rotation, nullptr, SDL_FLIP_NONE);
+	}
+
 }
