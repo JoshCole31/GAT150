@@ -4,6 +4,8 @@
 
 //core
 #include"Core/FileSystem.h"
+#include "Core/Timer.h"
+
 //math
 #include "Math/Color.h"
 #include "Math/Vector2.h"
@@ -29,6 +31,7 @@
 #include"Graphics/Texture.h"
 
 #include "Resource/ResourceSystem.h"
+#include "Input/InputSystem.h"
 
 namespace jc
 {
@@ -38,11 +41,14 @@ namespace jc
 		void Startup();
 		void Shutdown();
 		
-		void Update(float dt);
+		void Update();
 		void Draw();
 
 		template<typename T>
 		T* Get();
+
+	public:
+		FrameTimer time;
 
 	private:
 		std::vector<std::unique_ptr<System>> systems;
