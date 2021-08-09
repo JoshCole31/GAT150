@@ -1,4 +1,5 @@
 #pragma once
+#include <xkeycheck.h>
 
 namespace jc
 {
@@ -8,6 +9,7 @@ namespace jc
 	float RandomRange(float min, float max);
 
 	int Randomint();
+	int Randomint(int max);
 	int RandomRangeInt(int min, int max);
 
 

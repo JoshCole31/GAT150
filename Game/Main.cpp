@@ -42,17 +42,35 @@ int main(int, char**)
 		}
 	
 		engine.Update();
-		quit = (engine.Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == jc::InputSystem::eKeyState::Pressed);
+		if (engine.Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == jc::InputSystem::eKeyState::Pressed)
+		{
+			quit =true;
+		}
+
+		if(engine.Get<jc::InputSystem>()->GetButtonState((int)jc::InputSystem::eMouseButton::Left)==jc::InputSystem::eKeyState::Pressed)
+		{
+			jc::Vector2 position = engine.Get<jc::InputSystem>()->GetMousePostion();
+			//creat particle 
+			std::shared_ptr<jc::Texture> textureP = engine.Get<jc::ResourceSystem>()->Get<jc::Texture>("Particle1.png", engine.Get<jc::Renderer>());
+			std::unique_ptr<jc::Actor> actor = std::make_unique<jc::Actor>(position, textureP);
+			scene.Addactor(std::move(actor));
+
+				
+				std::cout << position.x << " " << position.y << std::endl;
+		}
+		
+
+
 		scene.Update(engine.time.deltaTime);
 
-		if (engine.time.time >= quitTime) quit = true;
-		engine.time.timeScale = 0.1f;
+		//if (engine.time.time >= quitTime) quit = true;
+		//engine.time.timeScale = 0.1f;
 
 
 		//draw
 		engine.Get<jc::Renderer>()->BeginFrame();
 		scene.Draw(engine.Get<jc::Renderer>());
-
+		engine.Draw(engine.Get<jc::Renderer>());
 
 		engine.Get<jc::Renderer>()->endFrame();
 

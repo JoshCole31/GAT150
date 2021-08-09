@@ -29,6 +29,7 @@
 //graphics
 #include"Graphics/Renderer.h"
 #include"Graphics/Texture.h"
+#include"Graphics/ParticleSystem.h"
 
 #include "Resource/ResourceSystem.h"
 #include "Input/InputSystem.h"
@@ -42,7 +43,7 @@ namespace jc
 		void Shutdown();
 		
 		void Update();
-		void Draw();
+		void Draw(Renderer* renderer);
 
 		template<typename T>
 		T* Get();
