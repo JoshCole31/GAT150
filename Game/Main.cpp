@@ -16,8 +16,9 @@ int main(int, char**)
 
 	///std::cout << jc::GetFilePath() << std::endl;
 	jc::SetFilePath("../Resources");
-	//std::cout << jc::GetFilePath() << std::endl;
-
+	engine.Get<jc::AudioSystem>()->AddAudio("explosion", "audio/explosion.wav");
+	engine.Get<jc::AudioSystem>()->AddAudio("music", "audio/SpaceCrusadeMusic.mp3");
+	jc::AudioChannel channle = engine.Get<jc::AudioSystem>()->PlayAudio("music",1,1,true);
 	std::shared_ptr<jc::Texture> texture = engine.Get<jc::ResourceSystem>()->Get<jc::Texture>("sf2.png",engine.Get<jc::Renderer>());
 
 	for (size_t i = 0; i < 10; i++) {
@@ -49,14 +50,17 @@ int main(int, char**)
 
 		if(engine.Get<jc::InputSystem>()->GetButtonState((int)jc::InputSystem::eMouseButton::Left)==jc::InputSystem::eKeyState::Pressed)
 		{
-			jc::Vector2 position = engine.Get<jc::InputSystem>()->GetMousePostion();
-			//creat particle 
-			std::shared_ptr<jc::Texture> textureP = engine.Get<jc::ResourceSystem>()->Get<jc::Texture>("Particle1.png", engine.Get<jc::Renderer>());
-			std::unique_ptr<jc::Actor> actor = std::make_unique<jc::Actor>(position, textureP);
-			scene.Addactor(std::move(actor));
+			//channle.Stop();
+			channle.SetPitch(jc::RandomRange(0.2f, 2.0f));
 
-				
-				std::cout << position.x << " " << position.y << std::endl;
+			jc::Vector2 position = engine.Get<jc::InputSystem>()->GetMousePostion();
+			std::shared_ptr<jc::Texture> textureP = engine.Get<jc::ResourceSystem>()->Get<jc::Texture>("Particle1.png", engine.Get<jc::Renderer>());
+
+			engine.Get<jc::ParticleSystem>()->Create(position,2,2,textureP,3);
+
+			engine.Get<jc::AudioSystem>()->PlayAudio("explosion",jc::RandomRange(0.2f,2.0f));
+
+			std::cout << position.x << " " << position.y << std::endl;
 		}
 		
 

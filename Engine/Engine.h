@@ -34,6 +34,8 @@
 #include "Resource/ResourceSystem.h"
 #include "Input/InputSystem.h"
 
+#include "Audio/AudioSystem.h"
+
 namespace jc
 {
 	class Engine
