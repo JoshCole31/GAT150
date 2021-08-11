@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include <SDL_Image.h>
 #include<iostream>
+#include <SDL_ttf.h> 
 
 namespace jc
 {
@@ -11,11 +12,13 @@ namespace jc
 			std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
 		}
 		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+		TTF_Init();
 	}
 
 	void Renderer::Shutdown()
 	{
 		IMG_Quit();
+		TTF_Quit();
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(window);
 	}

@@ -2,10 +2,12 @@
 #include <SDL_Image.h>
 #include <SDL.h>
 #include <iostream>
+#include<cassert>
+
+
 
 int main(int, char**)
 {
-
 	jc::Engine engine;
 	engine.Startup();
 
@@ -27,6 +29,19 @@ int main(int, char**)
 		std::unique_ptr<jc::Actor> actor = std::make_unique<jc::Actor>(transform,texture);
 		scene.Addactor(std::move (actor));
 	}
+
+	int size = 16;
+	std::shared_ptr<jc::Font> font = engine.Get<jc::ResourceSystem>()->Get<jc::Font>("fonts/arial.ttf", &size);
+
+	// create font texture
+	std::shared_ptr<jc::Texture> textTexture = std::make_shared<jc::Texture>(engine.Get<jc::Renderer>());
+	// set font texture with font surface
+	textTexture->Create(font->CreateSurface("Hello world", jc::Color{ 1, 1, 1 }));
+	// add font texture to resource system
+	engine.Get<jc::ResourceSystem>()->Add("textTexture", textTexture);
+
+
+
 
 	bool quit = false;
 	SDL_Event event;
@@ -73,6 +88,11 @@ int main(int, char**)
 
 		//draw
 		engine.Get<jc::Renderer>()->BeginFrame();
+
+		jc::Transform t;
+		t.position = { 30, 30 };
+		engine.Get<jc::Renderer>()->Draw(textTexture, t);
+
 		scene.Draw(engine.Get<jc::Renderer>());
 		engine.Draw(engine.Get<jc::Renderer>());
 

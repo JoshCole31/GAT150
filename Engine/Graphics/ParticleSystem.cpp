@@ -1,5 +1,5 @@
 #include "ParticleSystem.h"
-#include"Math/Random.h"\
+#include"Math/Random.h"
 #include "Renderer.h"
 #include"Texture.h"
 namespace jc 
@@ -37,6 +37,7 @@ namespace jc
 		{
 			if (particle.isActive) 
 			{
+				renderer->Draw(particle.texture, particle.position);
 			}
 
 		}
