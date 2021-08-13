@@ -63,7 +63,7 @@ namespace jc
 		}
 	}
 
-	void ParticleSystem::Create(const Vector2& position, size_t count, float lifetime, const std::vector<Color>& colors, float speed, float angle, float angleRange)
+	void ParticleSystem::Create(const Vector2& position, size_t count, float lifetime, const  std::shared_ptr<Texture> texture, float speed, float angle, float angleRange)
 	{
 		for (size_t i = 0; i < count; i++)
 		{
@@ -74,6 +74,7 @@ namespace jc
 				particle->lifetime = lifetime;
 				particle->position = position;
 				particle->prevposition = position;
+				particle->texture = texture;
 				//particle->color = colors[rand() % colors.size()];
 
 				particle->velocity = (jc::Vector2::Rotate(jc::Vector2::right,angle +jc::RandomRange(-angleRange,angleRange)))*(speed * Random());

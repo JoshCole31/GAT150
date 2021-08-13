@@ -24,7 +24,7 @@ namespace jc
 	float Actor::GetRadius()
 	{
 		//return std::max(texture->GetSize().x , texture->GetSize().y)*0.5f; same but not as good 
-		return (texture) ? texture->GetSize().Length() * 0.5f : 0;
+		return (texture) ? texture->GetSize().Length() * 0.5f *transform.scale.x: 0;
 	}
 
 }

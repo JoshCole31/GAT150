@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include "Actors/Player.h"
 
 void Game::Initialize()
 {
@@ -31,12 +31,12 @@ void Game::Initialize()
 	jc::AudioChannel musicChannel = engine->Get<jc::AudioSystem>()->PlayAudio("music", 1, 1, true);
 	std::shared_ptr<jc::Texture> texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("sf2.png", engine->Get<jc::Renderer>());
 
-	for (size_t i = 0; i < 10; i++) {
+	/*for (size_t i = 0; i < 10; i++) {
 
 		jc::Transform transform{ jc::Vector2{jc::RandomRange(0,800),jc::RandomRange(0,600) }, jc::RandomRange(0,360),1.0f };
 		std::unique_ptr<jc::Actor> actor = std::make_unique<jc::Actor>(transform, texture);
 		scene->Addactor(std::move(actor));
-	}
+	}*/
 
 	int size = 16;
 	std::shared_ptr<jc::Font> font = engine->Get<jc::ResourceSystem>()->Get<jc::Font>("fonts/arial.ttf", &size);
@@ -61,6 +61,8 @@ void Game::Shutdown()
 
 void Game::Update()
 {
+	engine->Update();
+
 	float dt = engine->time.deltaTime;
 	stateTimer += (dt);
 	switch (state)
@@ -98,9 +100,6 @@ void Game::Update()
 		break;
 	}
 
-	engine->Update();
-	scene->Update(dt);
-
 	if (engine->Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == jc::InputSystem::eKeyState::Pressed)
 	{
 		quit = true;
@@ -120,10 +119,12 @@ void Game::Update()
 
 		std::cout << position.x << " " << position.y << std::endl;
 	}
+	scene->Update(dt);
 }
 
 void Game::Draw()
 {
+	engine->Get<jc::Renderer>()->BeginFrame();
 	switch (state)
 	{
 	case Game::eState::Title:
@@ -164,22 +165,21 @@ void Game::Draw()
 
 	}
 
-	engine->Get<jc::Renderer>()->BeginFrame();
 
 	jc::Transform t;
 	t.position = { 30, 30 };
 	engine->Get<jc::Renderer>()->Draw(textTexture, t);
 
-	scene->Draw(engine->Get<jc::Renderer>());
 	engine->Draw(engine->Get<jc::Renderer>());
+	scene->Draw(engine->Get<jc::Renderer>());
 
 	engine->Get<jc::Renderer>()->endFrame();
 }
 
 void Game::UpdateLevelStart(float dt)
 {
-	/*scene->Addactor(std::make_unique<Player>(jc::Transform{ jc::Vector2{ 400.0f, 300.0f }, 0.0f, 3.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("shape.txt"), 300.0f));
-	scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, jc::RandomRange(0, jc::TwoPi), 5.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("rock.txt"), 100.0f));
+	scene->Addactor(std::make_unique<Player>(jc::Transform{ jc::Vector2{ 400.0f, 300.0f }, 0.0f, 3.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("ship.png", engine->Get<jc::Renderer>()),300.0f));
+	/*scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, jc::RandomRange(0, jc::TwoPi), 5.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("rock.txt"), 100.0f));
 	
 	for (size_t i = 0; i < 4; i++)
 	{

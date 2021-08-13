@@ -14,7 +14,6 @@ int main(int, char**)
 
 	bool quit = false;
 	SDL_Event event;
-	//float quitTime = engine.time.time + 3.0f;
 
 	while (!quit&& !game.IsQuit())
 	{
