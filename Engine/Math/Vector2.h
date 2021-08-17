@@ -73,7 +73,7 @@ namespace jc
 
 	inline float Vector2::Length() const 
 	{
-		return std::sqrt(x * x) + (y * y);
+		return std::sqrt(LengthSqr());
 	}
 
 	inline float Vector2::LengthSqr() const

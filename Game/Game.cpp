@@ -1,5 +1,9 @@
 #include "Game.h"
 #include "Actors/Player.h"
+#include "Actors/Enemy.h"
+#include "Actors/Asteroid.h"
+#include "Actors/HealthPack.h"
+#include "Actors/Projectile.h"
 
 void Game::Initialize()
 {
@@ -12,6 +16,7 @@ void Game::Initialize()
 	scene = std::make_unique<jc::Scene>();
 	scene->engine = engine.get();
 
+	jc::SeedRandom(static_cast<unsigned int>(time(nullptr)));
 	jc::SetFilePath("../Resources");
 
 	//game
@@ -41,12 +46,28 @@ void Game::Initialize()
 	int size = 16;
 	std::shared_ptr<jc::Font> font = engine->Get<jc::ResourceSystem>()->Get<jc::Font>("fonts/arial.ttf", &size);
 
+	std::shared_ptr<jc::Texture> titleTexture = std::make_shared<jc::Texture>(engine->Get<jc::Renderer>());
+	titleTexture->Create(font->CreateSurface("VECTREX", jc::Color{ 1, 1, 1 }));
+	engine->Get<jc::ResourceSystem>()->Add("titleTexture", titleTexture);
+
+	std::shared_ptr<jc::Texture> gameoverTexture = std::make_shared<jc::Texture>(engine->Get<jc::Renderer>());
+	gameoverTexture->Create(font->CreateSurface("GAME  OVER", jc::Color{ 1, 1, 1 }));
+	engine->Get<jc::ResourceSystem>()->Add("gameoverTexture", gameoverTexture);
+
+	std::shared_ptr<jc::Texture> scoreTexture = std::make_shared<jc::Texture>(engine->Get<jc::Renderer>());
+	scoreTexture->Create(font->CreateSurface("0000", jc::Color{ 1, 1, 1 }));
+	engine->Get<jc::ResourceSystem>()->Add("scoreTexture", scoreTexture);
+
+	std::shared_ptr<jc::Texture> LivesTexture = std::make_shared<jc::Texture>(engine->Get<jc::Renderer>());
+	LivesTexture->Create(font->CreateSurface("3", jc::Color{ 1, 1, 1 }));
+	engine->Get<jc::ResourceSystem>()->Add("LivesTexture", LivesTexture);
+
 	// create font texture
-	textTexture = std::make_shared<jc::Texture>(engine->Get<jc::Renderer>());
+	//textTexture = std::make_shared<jc::Texture>(engine->Get<jc::Renderer>());
 	// set font texture with font surface
-	textTexture->Create(font->CreateSurface("Hello world", jc::Color{ 1, 1, 1 }));
+	///textTexture->Create(font->CreateSurface("Hello world", jc::Color{1, 1, 1}));
 	// add font texture to resource system
-	engine->Get<jc::ResourceSystem>()->Add("textTexture", textTexture);
+	//engine->Get<jc::ResourceSystem>()->Add("textTexture", textTexture);
 
 
 	//stateFunction = &Game::UpdateTitle;
@@ -76,7 +97,7 @@ void Game::Update()
 		break;
 	case Game::eState::StartGame:
 		score = 0;
-		lives = 3;
+		lives = 8;
 			state = eState::StartLevel;
 		break;
 	case Game::eState::StartLevel:
@@ -84,18 +105,18 @@ void Game::Update()
 		state = eState::Game;
 		break;
 	case Game::eState::Game:
-		/*if (scene->GetActors<Enemy>().size() == 0)
+		if (scene->GetActors<Enemy>().size() == 0)
 		{
 			state = eState::Gameover;
-		}*/
+		}
 		break;
 		break;
 	case Game::eState::Gameover:
-		/*if (Core::Input::IsPressed(VK_SPACE))
+		if (scene->engine->Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == jc::InputSystem::eKeyState::Pressed)
 		{
 			state = eState::StartGame;
 		}
-		break*/;
+		break;
 	default:
 		break;
 	}
@@ -125,13 +146,14 @@ void Game::Update()
 void Game::Draw()
 {
 	engine->Get<jc::Renderer>()->BeginFrame();
+	int size = 16;
+	std::shared_ptr<jc::Font> font = engine->Get<jc::ResourceSystem>()->Get<jc::Font>("fonts/arial.ttf", &size);
+	jc::Transform t;
 	switch (state)
 	{
 	case Game::eState::Title:
-		/*graphics.SetColor(jc::Color::Red);
-		graphics.DrawString(380, 300+static_cast<int>(std::sin(stateTimer*6.0f)*20), "Vectrex");
-		graphics.SetColor(jc::Color::Green);
-		graphics.DrawString(340, 360, "Press Space to Start");*/
+		t.position = { 400, 300 };
+		engine->Get<jc::Renderer>()->Draw(engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("titleTexture"), t);
 		break;
 	case Game::eState::StartGame:
 		break;
@@ -140,35 +162,34 @@ void Game::Draw()
 	case Game::eState::Game:
 		break;
 	case Game::eState::Gameover:
-		/*scene->RemoveAllActors();
-		graphics.SetColor(jc::Color::Red);
-		graphics.DrawString(340, 250, "Game Over");
-		graphics.SetColor(jc::Color::White);
-		graphics.DrawString(340,280,"Your score ");
-		graphics.DrawString(360,300,std::to_string(score).c_str());
-		graphics.DrawString(300, 320, "Press spcae to play again");*/
+		t.position = { 400,300 };
+		engine->Get<jc::Renderer>()->Draw(engine->Get < jc::ResourceSystem>()->Get<jc::Texture>("gameoverTexture"), t);
+		scene->RemoveAllActors();
+		
 		break;
 	default:
 		break;
 	}
 
-	/*graphics.SetColor(jc::Color::White);
-	graphics.DrawString(30, 20, std::to_string(score).c_str());
-	graphics.DrawString(670, 20,"lives left");*/
+	// score text
+	t.position = { 50, 20 };
+	std::shared_ptr<jc::Texture> texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("scoreTexture");
+	texture->Create(font->CreateSurface(std::to_string(score), jc::Color{ 1, 1, 1 }));
+	engine->Get<jc::Renderer>()->Draw(texture, t);
+
+	//lives text
+	t.position = { 700, 20 };
+	std::shared_ptr<jc::Texture> texture2 = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("LivesTexture");
+
 	if (lives >= 0) 
 	{
-		//graphics.DrawString(750, 20, std::to_string(lives).c_str());
+		texture2->Create(font->CreateSurface(std::to_string(lives), jc::Color{ 1, 1, 1 }));
 	}
 	else
 	{
-		//graphics.DrawString(750, 20, "0");
-
+		texture2->Create(font->CreateSurface("0", jc::Color{1, 1, 1}));
 	}
-
-
-	jc::Transform t;
-	t.position = { 30, 30 };
-	engine->Get<jc::Renderer>()->Draw(textTexture, t);
+	engine->Get<jc::Renderer>()->Draw(texture2, t);
 
 	engine->Draw(engine->Get<jc::Renderer>());
 	scene->Draw(engine->Get<jc::Renderer>());
@@ -178,22 +199,23 @@ void Game::Draw()
 
 void Game::UpdateLevelStart(float dt)
 {
-	scene->Addactor(std::make_unique<Player>(jc::Transform{ jc::Vector2{ 400.0f, 300.0f }, 0.0f, 3.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("ship.png", engine->Get<jc::Renderer>()),300.0f));
-	/*scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, jc::RandomRange(0, jc::TwoPi), 5.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("rock.txt"), 100.0f));
+	scene->Addactor(std::make_unique<Player>(jc::Transform{ jc::Vector2{ 400.0f, 300.0f }, 0.0f, 1.5f }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("ship.png", engine->Get<jc::Renderer>()),300.0f));
+	scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, 0.0f, .3f }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("Asteroid.png", engine->Get<jc::Renderer>()),100.0f));
+	scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, 0.0f, .3f }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("Asteroid.png", engine->Get<jc::Renderer>()),100.0f));
 	
 	for (size_t i = 0; i < 4; i++)
 	{
-		scene->Addactor(std::make_unique<Enemy>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, jc::RandomRange(0, jc::TwoPi), 5.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("EnemyShape.txt"), 100.0f));
-	}*/
+		scene->Addactor(std::make_unique<Enemy>(jc::Transform{  jc::Vector2{jc::RandomRange(0,800), jc::RandomRange(0, 600) }, 0.0f, 1 }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("Newship2.png", engine->Get<jc::Renderer>()),200.0f));
+	}
 }
 
 void Game::UpdateTitle(float dt)
 {
-	//if (Core::Input::IsPressed(VK_SPACE))
-	//{
-	//	stateFunction = &Game::UpdateTitle;
-	//	//state = eState::StartGame;
-	//}
+	if(scene->engine->Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == jc::InputSystem::eKeyState::Pressed)
+	{
+		//stateFunction = &Game::UpdateTitle;
+		state = eState::StartGame;
+	}
 }
 
 void Game::OnAddPoints(const jc::Event& event)
@@ -224,16 +246,16 @@ void Game::OnHeal(const jc::Event& event)
 
 void Game::OnRockdistroyed(const jc::Event& event)
 {
-	/*if (scene->GetActors<HealthPack>().size()  >6)
+	if (scene->GetActors<HealthPack>().size()  >6)
 	{
 		return;
 	}
-	scene->Addactor(std::make_unique<HealthPack>(std::get<jc::Vector2>(event.data),engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("healthpack.txt"), 100.0f));*/
+	scene->Addactor(std::make_unique<HealthPack>(std::get<jc::Vector2>(event.data),engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("newHealthPickup.png", engine->Get<jc::Renderer>()), 0.0f));
 }
 
 void Game::OnSpawnEnemys(const jc::Event& event)
 {
-	/*if (scene->GetActors<Enemy>().size() > 25)
+	if (scene->GetActors<Enemy>().size() > 25)
 	{
 		return;
 	}
@@ -242,14 +264,14 @@ void Game::OnSpawnEnemys(const jc::Event& event)
 	{
 		for (size_t i = 0; i < e; i++)
 		{
-			scene->Addactor(std::make_unique<Enemy>(jc::Transform{ jc::Vector2{0.0f, jc::RandomRange(0, 600) }, jc::RandomRange(0, jc::TwoPi), 5.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("EnemyShape.txt"), 100.0f));
+			scene->Addactor(std::make_unique<Enemy>(jc::Transform{ jc::Vector2{0.0f, jc::RandomRange(0, 600) }, 0.0f, 1 }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("Newship2.png", engine->Get<jc::Renderer>()), 150.0f));
 		}
-	}*/
+	}
 }
 
 void Game::OnSpawnAsteroids(const jc::Event& event)
 {
-	/*if (scene->GetActors<Asteroid>().size() >4)
+	if (scene->GetActors<Asteroid>().size() >4)
 	{
 		return;
 	}
@@ -258,7 +280,7 @@ void Game::OnSpawnAsteroids(const jc::Event& event)
 	{
 		for (size_t i = 0; i < e; i++)
 		{
-			scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), 0.0f}, jc::RandomRange(0, jc::TwoPi), 5.0f }, engine->Get<jc::ResourceSystem>()->Get<jc::Shape>("rock.txt"), 100.0f));
+			scene->Addactor(std::make_unique<Asteroid>(jc::Transform{ jc::Vector2{jc::RandomRange(0,800), 0.0f}, jc::RandomRange(0, jc::TwoPi),.3f }, engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("Asteroid.png", engine->Get<jc::Renderer>()), 100.0f));
 		}
-	}*/
+	}
 }
