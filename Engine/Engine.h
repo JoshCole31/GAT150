@@ -19,6 +19,9 @@
 #include "Object/Actor.h"
 #include "Object/Scene.h"
 
+#include "Component/SpriteComponent.h"
+#include "Component/physicsComponent.h"
+
 #include<vector>
 #include<memory>
 #include<algorithm>
@@ -39,6 +42,7 @@
 #include "Input/InputSystem.h"
 
 #include "Audio/AudioSystem.h"
+
 
 namespace jc
 {
