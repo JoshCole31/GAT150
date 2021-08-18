@@ -15,16 +15,18 @@ void Game::Initialize()
 	jc::SetFilePath("../Resources");
 
 	//actors
-	std::unique_ptr <jc::Actor> actor = std::make_unique<jc::Actor>(jc::Transform{ jc::Vector2{400,300} });
+	std::unique_ptr <jc::Actor> actor = std::make_unique<jc::Actor>(jc::Transform{ jc::Vector2{400,300},0,1 });
 	{
-		std::unique_ptr<jc::SpriteComponent> component = std::make_unique<jc::SpriteComponent>();
-		component->texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("sf2.png", engine->Get<jc::Renderer>());
-		actor->AddComponent(std::move(component));
+		//jc::SpriteComponent* component = actor->AddComponent<jc::SpriteComponent>();
+		jc::SpriteAnimationComponent* component = actor->AddComponent<jc::SpriteAnimationComponent>();
+		component->texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("spritesheet.png", engine->Get<jc::Renderer>());
+		component->fps = 15;
+		component->numFramesX = 12;
+		component->numFramesY = 8;
 	}
 	{
-		std::unique_ptr <jc::physicsComponent> component = std::make_unique<jc::physicsComponent>();
-		component->ApplyForce(jc::Vector2::right*200);
-		actor->AddComponent(std::move(component));
+		jc::physicsComponent* component =actor->AddComponent<jc::physicsComponent>();
+		//component->ApplyForce(jc::Vector2::right*200);
 	}
 	scene->Addactor(std::move(actor));
 

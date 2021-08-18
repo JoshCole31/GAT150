@@ -182,7 +182,8 @@
     <ClCompile Include="Audio\AudioChannel.cpp" />
     <ClCompile Include="Audio\AudioSystem.cpp" />
     <ClCompile Include="Component\physicsComponent.cpp" />
-    <ClCompile Include="Component\SpriteComoinent.cpp" />
+    <ClCompile Include="Component\SpriteAnimationComponent.cpp" />
+    <ClCompile Include="Component\SpriteComonent.cpp" />
     <ClCompile Include="Core\FileSystem.cpp" />
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="Core\Utilites.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Component\GraphicsComponent.h" />
     <ClInclude Include="Component\physicsComponent.h" />
+    <ClInclude Include="Component\SpriteAnimationComponent.h" />
     <ClInclude Include="Component\SpriteComponent.h" />
     <ClInclude Include="Core\FileSystem.h" />
     <ClInclude Include="Core\Timer.h" />

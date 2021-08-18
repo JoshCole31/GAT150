@@ -20,6 +20,7 @@
 #include "Object/Scene.h"
 
 #include "Component/SpriteComponent.h"
+#include "Component/SpriteAnimationComponent.h"
 #include "Component/physicsComponent.h"
 
 #include<vector>
