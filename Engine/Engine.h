@@ -7,6 +7,10 @@
 #include"Core/FileSystem.h"
 #include "Core/Timer.h"
 
+//Framework
+#include "Framework/EventSystem.h"
+#include "Framework/Singleton.h"
+#include "Framework/Factory.h"
 
 //math
 #include "Math/Color.h"
@@ -29,9 +33,6 @@
 
 //Resource
 
-//Framework
-#include "Framework/EventSystem.h"
-
 //graphics
 #include"Graphics/Renderer.h"
 #include"Graphics/Texture.h"
@@ -47,6 +48,9 @@
 
 namespace jc
 {
+	using ObjectFactory = Singleton<Factory<std::string, Object>>;
+	
+
 	class Engine
 	{
 	public:

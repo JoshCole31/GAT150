@@ -1,5 +1,8 @@
 #include "Game.h"
 
+
+//int global = 10;
+
 void Game::Initialize()
 {
 	//create engine
@@ -18,11 +21,14 @@ void Game::Initialize()
 	std::unique_ptr <jc::Actor> actor = std::make_unique<jc::Actor>(jc::Transform{ jc::Vector2{400,300},0,1 });
 	{
 		//jc::SpriteComponent* component = actor->AddComponent<jc::SpriteComponent>();
-		jc::SpriteAnimationComponent* component = actor->AddComponent<jc::SpriteAnimationComponent>();
+		//jc::SpriteAnimationComponent* component = actor->AddComponent<jc::SpriteAnimationComponent>();
+
+		auto component = jc::ObjectFactory::Instance().Create<jc::SpriteAnimationComponent>("SpriteAnimationComponent");
 		component->texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("spritesheet.png", engine->Get<jc::Renderer>());
 		component->fps = 15;
 		component->numFramesX = 12;
 		component->numFramesY = 8;
+		actor->AddComponent(std::move(component));
 	}
 	{
 		jc::physicsComponent* component =actor->AddComponent<jc::physicsComponent>();

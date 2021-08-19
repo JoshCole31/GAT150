@@ -37,4 +37,10 @@ namespace jc
 		return 0;
 	}
 
+	void Actor::AddComponent(std::unique_ptr<Component> component)
+	{
+		component->owner = this;
+		components.push_back(std::move(component));
+	}
+
 }

@@ -23,3 +23,5 @@ public:
 private:
 	bool quit = false;
 };
+
+extern int global;

@@ -6,7 +6,6 @@
 //#include<cassert>
 
 
-
 int main(int, char**)
 {
 	Game game;
