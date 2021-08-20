@@ -27,6 +27,13 @@ namespace jc
 			return color;
 		}
 
+		float operator [] (size_t index) const { return (&r)[index]; }
+		float& operator [] (size_t index) { return (&r)[index]; }
+
+		friend std::istream& operator >> (std::istream& stream, Color& c);
+		friend std::ostream& operator << (std::ostream& stream, Color& c);
+
+
 		Color operator + (const Color& color) { return { r + color.r,g + color.g,b + color.b }; }
 		Color operator - (const Color& color) { return { r - color.r,g - color.g,b - color.b }; }
 

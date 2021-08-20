@@ -16,9 +16,12 @@ namespace jc
 
 		std::for_each(systems.begin(), systems.end(), [](auto& system) {system->Startup(); });
 		
-		ObjectFactory::Instance().Register<SpriteAnimationComponent>("SpriteAnimationComponent");
-
+		REDISTER_CLASS(Actor)
+		REDISTER_CLASS(SpriteAnimationComponent)
+		REDISTER_CLASS(physicsComponent)
+		REDISTER_CLASS(SpriteComponent)
 	}
+
 	void Engine::Shutdown()
 	{
 		std::for_each(systems.begin(), systems.end(), [](auto& system) {system->Shutdown(); });

@@ -13,6 +13,13 @@ namespace jc
 	const Color Color::Black{255,255,255};
 	const Color Color::Yellow{1,1,0};
 
+	std::ostream& operator<<(std::ostream& stream, Color& c)
+	{
+		stream << c.r << " " << c.g<<" "<<c.b;
+
+		return stream;
+
+	}
 
 	std::istream& operator>>(std::istream& stream, Color& c)
 	{

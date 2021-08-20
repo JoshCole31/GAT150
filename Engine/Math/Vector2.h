@@ -17,6 +17,9 @@ namespace jc
 
 		void Set(float x, float y) { this->x = x; this->y = y; }
 
+		friend std::istream& operator >> (std::istream& stream, Vector2& v);
+		friend std::ostream& operator << (std::ostream& stream, Vector2& v);
+
 		Vector2 operator + (const Vector2& v) const { return { x + v.x,y + v.y }; }
 		Vector2 operator - (const Vector2& v) const { return { x - v.x,y - v.y }; }
 		Vector2 operator * (const Vector2& v) const { return { x * v.x,y * v.y }; }

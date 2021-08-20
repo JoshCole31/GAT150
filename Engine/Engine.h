@@ -1,11 +1,14 @@
 #pragma once
 
+#define REDISTER_CLASS(CLASS) ObjectFactory::Instance().Register<CLASS>(#CLASS);
+
 //systems
 
 //core
 #include "Core/Utilites.h"
 #include"Core/FileSystem.h"
 #include "Core/Timer.h"
+#include "Core/Json.h"
 
 //Framework
 #include "Framework/EventSystem.h"
