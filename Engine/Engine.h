@@ -1,6 +1,6 @@
 #pragma once
 
-#define REDISTER_CLASS(CLASS) ObjectFactory::Instance().Register<CLASS>(#CLASS);
+#define REDISTER_CLASS(class) ObjectFactory::Instance().Register<class>(#class);
 
 //systems
 
@@ -9,6 +9,7 @@
 #include"Core/FileSystem.h"
 #include "Core/Timer.h"
 #include "Core/Json.h"
+#include "Core/Serializable.h"
 
 //Framework
 #include "Framework/EventSystem.h"

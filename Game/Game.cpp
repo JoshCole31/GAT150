@@ -17,24 +17,28 @@ void Game::Initialize()
 	jc::SeedRandom(static_cast<unsigned int>(time(nullptr)));
 	jc::SetFilePath("../Resources");
 
-	//actors
-	std::unique_ptr <jc::Actor> actor = std::make_unique<jc::Actor>(jc::Transform{ jc::Vector2{400,300},0,1 });
-	{
-		//jc::SpriteComponent* component = actor->AddComponent<jc::SpriteComponent>();
-		//jc::SpriteAnimationComponent* component = actor->AddComponent<jc::SpriteAnimationComponent>();
+	rapidjson::Document document;
+	bool success = jc::json::Load("scene.txt", document);
+	assert(success);
+	scene->Read(document);
+	////actors
+	//std::unique_ptr <jc::Actor> actor = std::make_unique<jc::Actor>(jc::Transform{ jc::Vector2{400,300},0,1 });
+	//{
+	//	//jc::SpriteComponent* component = actor->AddComponent<jc::SpriteComponent>();
+	//	//jc::SpriteAnimationComponent* component = actor->AddComponent<jc::SpriteAnimationComponent>();
 
-		auto component = jc::ObjectFactory::Instance().Create<jc::SpriteAnimationComponent>("SpriteAnimationComponent");
-		component->texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("spritesheet.png", engine->Get<jc::Renderer>());
-		component->fps = 15;
-		component->numFramesX = 12;
-		component->numFramesY = 8;
-		actor->AddComponent(std::move(component));
-	}
-	{
-		jc::physicsComponent* component =actor->AddComponent<jc::physicsComponent>();
-		//component->ApplyForce(jc::Vector2::right*200);
-	}
-	scene->Addactor(std::move(actor));
+	//	auto component = jc::ObjectFactory::Instance().Create<jc::SpriteAnimationComponent>("SpriteAnimationComponent");
+	//	component->texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("spritesheet.png", engine->Get<jc::Renderer>());
+	//	component->fps = 15;
+	//	component->numFramesX = 12;
+	//	component->numFramesY = 8;
+	//	actor->AddComponent(std::move(component));
+	//}
+	//{
+	//	jc::physicsComponent* component =actor->AddComponent<jc::physicsComponent>();
+	//	//component->ApplyForce(jc::Vector2::right*200);
+	//}
+	//scene->Addactor(std::move(actor));
 
 }
 

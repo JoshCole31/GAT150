@@ -6,6 +6,11 @@
 #include "Math/Color.h"
 #include "Math/Vector2.h"
 
+
+#define JSON_READ(value,data)jc::json::Get(value, #data, data);
+
+
+
 namespace jc
 {
 	namespace json

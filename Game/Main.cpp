@@ -12,17 +12,17 @@ int main(int, char**)
 	game.Initialize();
 
 
-	rapidjson::Document document;
+	/*rapidjson::Document document;
 	bool success = jc::json::Load("json.txt", document);
 	assert(success);
 
-	std::string str;
-	jc::json::Get(document, "string", str);
-	std::cout << str << std::endl;
+	std::string string;
+	JSON_READ(document, string);
+	std::cout << string << std::endl;
 
-	bool b;
-	jc::json::Get(document, "boolean", b);
-	std::cout << b << std::endl;
+	bool boolean;
+	JSON_READ(document, boolean);
+	std::cout << boolean << std::endl;
 
 	int i1;
 	jc::json::Get(document, "integer1", i1);
@@ -42,7 +42,7 @@ int main(int, char**)
 
 	jc::Color color;
 	jc::json::Get(document, "color", color);
-	std::cout << color << std::endl;
+	std::cout << color << std::endl;*/
 
 
 	bool quit = false;
