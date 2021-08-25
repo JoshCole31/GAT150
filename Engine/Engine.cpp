@@ -12,6 +12,7 @@ namespace jc
 		systems.push_back(std::make_unique<InputSystem>());
 		systems.push_back(std::make_unique<ParticleSystem>());
 		systems.push_back(std::make_unique<AudioSystem>());
+		systems.push_back(std::make_unique<PhysicsSystem>());
 
 
 		std::for_each(systems.begin(), systems.end(), [](auto& system) {system->Startup(); });
@@ -19,6 +20,7 @@ namespace jc
 		REDISTER_CLASS(Actor)
 		REDISTER_CLASS(SpriteAnimationComponent)
 		REDISTER_CLASS(physicsComponent)
+		REDISTER_CLASS(RBPhysicsComponent)
 		REDISTER_CLASS(SpriteComponent)
 	}
 

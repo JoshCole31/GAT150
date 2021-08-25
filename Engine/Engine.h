@@ -1,6 +1,6 @@
 #pragma once
 
-#define REDISTER_CLASS(class) ObjectFactory::Instance().Register<class>(#class);
+#define REDISTER_CLASS(class) jc::ObjectFactory::Instance().Register<class>(#class);
 
 //systems
 
@@ -30,6 +30,7 @@
 #include "Component/SpriteComponent.h"
 #include "Component/SpriteAnimationComponent.h"
 #include "Component/physicsComponent.h"
+#include "Component/RBPhysicsComponent.h"
 
 #include<vector>
 #include<memory>
@@ -41,6 +42,9 @@
 #include"Graphics/Renderer.h"
 #include"Graphics/Texture.h"
 #include"Graphics/ParticleSystem.h"
+
+//Physics system
+#include "Physics/PhysicsSystem.h"
 
 #include "Graphics/Font.h"
 

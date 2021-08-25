@@ -37,7 +37,6 @@ namespace jc
 	{
 		SpriteComponent::Read(value);
 
-	
 		JSON_READ(value, fps);
 		JSON_READ(value, numFramesX);
 		JSON_READ(value, numFramesY);

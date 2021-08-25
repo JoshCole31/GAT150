@@ -8,9 +8,13 @@
 					400,
 					300
 				],
-				"rotation":45
+				"rotation":0
 			},
 			"components":[
+				{
+					"type": "PlayerComponent",
+					"speed":100
+				},
 				{
 					"type":"SpriteAnimationComponent",
 					"textureName":"spritesheet.png",
@@ -19,7 +23,37 @@
 					"numFramesY":8
 				},
 				{
-					"type":"PhysicsComponet"
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":true,
+					"data.density": 1,
+					"data.lock":true,
+					"data.size":[64,96]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"tag":"Player",
+			"transform":{
+				"position":[
+					400,
+					550
+				],
+				"rotation":0
+			},
+			"components":[
+				{
+					"type":"SpriteComponent",
+					"textureName":"ground.png",
+					"fps":15,
+					"numFramesX":12,
+					"numFramesY":8
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[800,20]
 				}
 			]
 		}

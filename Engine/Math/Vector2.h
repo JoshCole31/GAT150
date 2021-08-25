@@ -1,4 +1,5 @@
 #pragma once
+#include "box2d/box2d.h"
 #include <cmath>
 #include<iostream>
 
@@ -11,6 +12,8 @@ namespace jc
 		Vector2(float x) :x{ x }, y{ x }{}
 		Vector2(float x, float y) : x{ x }, y{ y }{}
 		Vector2(int x, int y) : x{ static_cast<float> (x) }, y{ static_cast<float>(y) }{}
+
+		Vector2(const b2Vec2 v2) :x{ v2.x }, y{ v2.y }{}
 
 		float operator [] (size_t index) const { return (&x)[index]; }//dose not change
 		float& operator [] (size_t index) { return (&x)[index]; }// could change 
@@ -42,7 +45,7 @@ namespace jc
 		Vector2& operator *= (float s) { x *= s, y *= s; return *this; }//scales
 		Vector2& operator /= (float s) { x /= s, y /= s; return *this; }//scales
 
-
+		operator b2Vec2() const { return b2Vec2{ x,y }; }
 		Vector2 operator - ()const { return { -x,-y }; }
 
 		bool operator == (const Vector2& v) { return x == v.x && y == v.y; }

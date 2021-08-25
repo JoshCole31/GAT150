@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include "GameComponent/PlayerComponent.h"
 
 //int global = 10;
 
@@ -9,6 +9,11 @@ void Game::Initialize()
 	engine = std::make_unique<jc::Engine>();
 	engine->Startup();
 	engine->Get<jc::Renderer>()->Create("GAT150", 800, 600);
+
+	//register classes
+	REDISTER_CLASS(PlayerComponent);
+
+
 
 	//create scene
 	scene = std::make_unique<jc::Scene>();
