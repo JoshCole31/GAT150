@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameComponent/PlayerComponent.h"
+#include "GameComponent/EnemyComponent.h"
 
 //int global = 10;
 
@@ -12,6 +13,7 @@ void Game::Initialize()
 
 	//register classes
 	REDISTER_CLASS(PlayerComponent);
+	REDISTER_CLASS(EnemyComponent);
 
 
 
