@@ -6,5 +6,8 @@ namespace jc
 	{
 	public:
 		virtual ~Object(){}
+
+		virtual void Create(){}
+
 	};
 }

@@ -22,6 +22,8 @@ namespace jc
 		REDISTER_CLASS(physicsComponent)
 		REDISTER_CLASS(RBPhysicsComponent)
 		REDISTER_CLASS(SpriteComponent)
+		REDISTER_CLASS(AudioComponent)
+		REDISTER_CLASS(TextComponent)
 	}
 
 	void Engine::Shutdown()

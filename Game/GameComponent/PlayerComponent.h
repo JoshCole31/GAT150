@@ -1,16 +1,24 @@
 #pragma once
 #include "Component/Component.h"
+#include "Framework/EventSystem.h"
 
 class PlayerComponent :public jc::Component
 {
 public:
+	void Create() override;
+	virtual void Update() override;
+
+	virtual void OnCollisionEnter(const jc::Event& event);
+	virtual void OnCollisionExit(const jc::Event& event);
+
 	// Inherited via Component
 	virtual bool Write(const rapidjson::Value& value) const override;
 	virtual bool Read(const rapidjson::Value& value) override;
-	virtual void Update() override;
 
 
 public:
 	float speed{ 0 };
 
+private:
+	std::list<jc::Actor*> contacts;
 };

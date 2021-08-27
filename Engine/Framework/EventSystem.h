@@ -11,10 +11,12 @@
 
 namespace jc
 {
+	class Object;
 	struct Event 
 	{
-	std:: string name;
-	std::variant<int, bool, float, Vector2, std::string> data;
+		std:: string name;
+		Object* receiver{ nullptr };
+		std::variant<int, bool, float, Vector2, std::string,void*> data;
 	};
 
 
@@ -27,19 +29,17 @@ namespace jc
 		virtual void Shutdown() override;
 		virtual void Update(float dt) override;
 
-		void Subcribe(const std::string& name, function_t function);
+		void Subcribe(const std::string& name, function_t function, Object* receiver=nullptr);
 		void Notify(const Event& event);
 
 	private:
 		struct Observer
 		{
 			function_t function;
-
+			Object* receiver;
 		};
 	private:
 		std::map<std::string, std::list<Observer>> observers;
-
-
 	};
 
 

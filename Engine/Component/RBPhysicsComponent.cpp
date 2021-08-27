@@ -2,9 +2,6 @@
 #include "Engine.h"
 
 namespace jc {
-
-
-
 	void RBPhysicsComponent::Update()
 	{
 		if (!body) 
