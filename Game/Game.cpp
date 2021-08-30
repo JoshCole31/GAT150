@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameComponent/PlayerComponent.h"
 #include "GameComponent/EnemyComponent.h"
+#include "GameComponent/PickupComponent.h"
 
 //int global = 10;
 
@@ -14,6 +15,7 @@ void Game::Initialize()
 	//register classes
 	REDISTER_CLASS(PlayerComponent);
 	REDISTER_CLASS(EnemyComponent);
+	REDISTER_CLASS(PickupComponent);
 
 
 
@@ -28,25 +30,19 @@ void Game::Initialize()
 	bool success = jc::json::Load("scene.txt", document);
 	assert(success);
 	scene->Read(document);
-	////actors
-	//std::unique_ptr <jc::Actor> actor = std::make_unique<jc::Actor>(jc::Transform{ jc::Vector2{400,300},0,1 });
-	//{
-	//	//jc::SpriteComponent* component = actor->AddComponent<jc::SpriteComponent>();
-	//	//jc::SpriteAnimationComponent* component = actor->AddComponent<jc::SpriteAnimationComponent>();
-
-	//	auto component = jc::ObjectFactory::Instance().Create<jc::SpriteAnimationComponent>("SpriteAnimationComponent");
-	//	component->texture = engine->Get<jc::ResourceSystem>()->Get<jc::Texture>("spritesheet.png", engine->Get<jc::Renderer>());
-	//	component->fps = 15;
-	//	component->numFramesX = 12;
-	//	component->numFramesY = 8;
-	//	actor->AddComponent(std::move(component));
-	//}
-	//{
-	//	jc::physicsComponent* component =actor->AddComponent<jc::physicsComponent>();
-	//	//component->ApplyForce(jc::Vector2::right*200);
-	//}
-	//scene->Addactor(std::move(actor));
-
+	
+	for (int i = 0; i < 100; i++) 
+	{
+		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("Coin");
+		actor->transform.position = jc::Vector2{ jc::RandomRange(0,800),jc::RandomRange(100,300) };
+		scene->Addactor(std::move(actor));
+	}
+	/*for (int i = 0; i < 10; i++)
+	{
+		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("bat");
+		actor->transform.position = jc::Vector2{ 0,0 };
+		scene->Addactor(std::move(actor));
+	}*/
 }
 
 void Game::Shutdown()

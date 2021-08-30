@@ -67,6 +67,7 @@
 		{
 			"type":"Actor",
 			"tag":"Enemy",
+			"name":"bat",
 			"transform":{
 				"position":[
 					500,
@@ -94,6 +95,41 @@
 					"data.lock":true,
 					"data.restitution":0.1,
 					"data.gravityScale":-1,
+					"data.size":[32,32]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"prototype":true,
+			"tag":"Pickup",
+			"name":"Coin",
+			"transform":{
+				"position":[
+					600,
+					200
+				],
+				"rotation":0
+			},
+			"components":[
+				{
+					"type": "PickupComponent",
+					"speed":10
+				},
+				{
+					"type":"SpriteAnimationComponent",
+					"textureName":"coinsheet.png",
+					"fps":15,
+					"numFramesX":8,
+					"numFramesY":1
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":true,
+					"data.density": 1.2,
+					"data.lock":true,
+					"data.restitution":0.1,
+					"data.gravityScale":1,
 					"data.size":[32,32]
 				}
 			]

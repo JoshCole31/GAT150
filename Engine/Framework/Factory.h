@@ -14,6 +14,7 @@ namespace jc
 	template <class T,class TBase>
 	class Creator : public Creatorbase<TBase>
 	{
+		public:
 		std::unique_ptr<TBase> Create()const override
 		{
 			return std::make_unique<T>();
@@ -29,6 +30,9 @@ namespace jc
 
 		template<class T>
 		void Register(TKey key);
+
+		template<class T>
+		void RegisterPrototype(TKey key, std::unique_ptr<TBase> instance);
 
 	protected:
 		std::map <TKey, std::unique_ptr<Creatorbase<TBase>>> registry;
@@ -52,5 +56,27 @@ namespace jc
 	inline void Factory<TKey, TBase>::Register(TKey key)
 	{
 		registry[key] = std::make_unique<Creator<T, TBase>>();
+	}
+
+
+	template <class TBase>
+	class Prototype : public Creatorbase<TBase>
+	{
+	public:
+		Prototype(std::unique_ptr<TBase> instance) : instance { std::move(instance) }{}
+		std::unique_ptr<TBase> Create()const override
+		{
+			return instance->Clone();
+		}
+
+	private:
+		std::unique_ptr<TBase> instance;
+	};
+
+	template<class TKey, class TBase>
+	template<class T>
+	inline void Factory<TKey, TBase>::RegisterPrototype(TKey key, std::unique_ptr<TBase> instance)
+	{
+		registry[key] = std::make_unique<Prototype<TBase>>(std::move(instance));
 	}
 }

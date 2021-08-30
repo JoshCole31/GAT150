@@ -7,6 +7,8 @@ namespace jc
 	class physicsComponent : public Component
 	{
 	public:
+		std::unique_ptr<Object> Clone() const { return std::make_unique<physicsComponent>(*this); }
+
 		void Update() override;
 		virtual void ApplyForce(const Vector2& force) { acceleration += force; }
 

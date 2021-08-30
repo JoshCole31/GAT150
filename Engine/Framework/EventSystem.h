@@ -25,11 +25,14 @@ namespace jc
 	public:
 		using function_t = std::function<void(const Event&)>;
 
+
 		virtual void Startup() override;
 		virtual void Shutdown() override;
 		virtual void Update(float dt) override;
 
 		void Subcribe(const std::string& name, function_t function, Object* receiver=nullptr);
+		void Unsubscribe(const std::string& name, Object* receiver);
+
 		void Notify(const Event& event);
 
 	private:
@@ -38,6 +41,7 @@ namespace jc
 			function_t function;
 			Object* receiver;
 		};
+
 	private:
 		std::map<std::string, std::list<Observer>> observers;
 	};

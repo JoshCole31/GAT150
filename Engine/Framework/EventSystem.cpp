@@ -34,5 +34,19 @@ namespace jc{
 			}
 		}
 	}
-
+	void EventSystem::Unsubscribe(const std::string& name, Object* receiver)
+	{
+		auto& eventObservers = observers[name];
+		for (auto iter = eventObservers.begin(); iter != eventObservers.end();)
+		{
+			if (iter->receiver == receiver)
+			{
+				iter = eventObservers.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+	}
 }

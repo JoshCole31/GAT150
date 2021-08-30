@@ -43,5 +43,10 @@ namespace jc {
 		JSON_READ(value, data.gravityScale);
 		return true;
 	}
-
+	RBPhysicsComponent::~RBPhysicsComponent()
+	{
+		if (body) {
+			owner->scene->engine->Get<PhysicsSystem>()->DestroyBody(body);
+		}
+	}
 }

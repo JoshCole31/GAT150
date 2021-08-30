@@ -3,6 +3,11 @@
 
 using namespace jc;
 
+PlayerComponent::~PlayerComponent()
+{
+	owner->scene->engine->Get<EventSystem>()->Unsubscribe("collision_enter", owner);
+	owner->scene->engine->Get<EventSystem>()->Unsubscribe("collision_exit", owner);
+}
 void PlayerComponent::Create()
 {
 	owner->scene->engine->Get<EventSystem>()->Subcribe("collision_enter", std::bind(&PlayerComponent::OnCollisionEnter, this, std::placeholders::_1),owner);
@@ -50,6 +55,7 @@ void PlayerComponent::OnCollisionEnter(const Event& event)
 		owner->scene->engine->Get<AudioSystem>()->PlayAudio("hurt");
 	}
 }
+
 void PlayerComponent::OnCollisionExit(const Event& event)
 {
 	void* p = std::get<void*>(event.data);
