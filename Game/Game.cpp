@@ -29,9 +29,17 @@ void Game::Initialize()
 	rapidjson::Document document;
 	bool success = jc::json::Load("scene.txt", document);
 	assert(success);
+
 	scene->Read(document);
-	
-	for (int i = 0; i < 100; i++) 
+
+	jc::Tilemap tilemap;
+	tilemap.scene = scene.get();
+	success = jc::json::Load("map.txt", document);
+	assert(success);
+	tilemap.Read(document);
+	tilemap.Create();
+
+	for (int i = 0; i < 10; i++) 
 	{
 		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("Coin");
 		actor->transform.position = jc::Vector2{ jc::RandomRange(0,800),jc::RandomRange(100,300) };

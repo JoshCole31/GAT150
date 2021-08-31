@@ -28,7 +28,7 @@ void PlayerComponent::Update()
 	}
 	if (contacts.size() > 0 && owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == InputSystem::eKeyState::Pressed)
 	{
-		force.y -= 200;
+		force.y -= 300;
 	}
 	physicsComponent* PhysicsComponent=owner->GetComponent<physicsComponent>();
 	assert(PhysicsComponent);

@@ -9,7 +9,7 @@ namespace jc
 	}
 	void  SpriteComponent::Draw(Renderer* renderer)
 	{
-		renderer->Draw(texture, owner->transform);
+		renderer->Draw(texture,rect, owner->transform);
 	}
 
 	bool SpriteComponent::Write(const rapidjson::Value& value) const
@@ -22,6 +22,14 @@ namespace jc
 		std::string textureName;
 		JSON_READ(value, textureName);
 		texture = owner->scene->engine->Get<ResourceSystem>()->Get<Texture>(textureName, owner->scene->engine->Get<Renderer>());
+
+		JSON_READ(value, rect);
+		if (rect.x == 0 && rect.y == 0 && rect.w == 0 && rect.h==0)
+		{
+			Vector2 size = texture->GetSize();
+			rect.w = static_cast<int>(size.x);
+			rect.y = static_cast<int>(size.y);
+		}
 
 		return true;
 	}

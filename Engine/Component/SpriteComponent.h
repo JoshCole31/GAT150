@@ -18,6 +18,7 @@ namespace jc
 		virtual bool Read(const rapidjson::Value& value) override;
 	public:
 		std::shared_ptr<Texture> texture;
+		SDL_Rect rect;
 
 	};
 }

@@ -26,6 +26,8 @@
 //Object
 #include "Object/Actor.h"
 #include "Object/Scene.h"
+#include "Object/Tilemap.h"
+
 
 #include "Component/SpriteComponent.h"
 #include "Component/SpriteAnimationComponent.h"

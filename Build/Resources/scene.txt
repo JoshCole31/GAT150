@@ -60,7 +60,7 @@
 					"data.lockAngle":true,
 					"data.restitution":0.1,
 					"data.gravityScale":1,
-					"data.size":[32,32]
+					"data.size":[32,64]
 				}
 			]
 		},
@@ -158,6 +158,62 @@
 					"data.isDynamic":false,
 					"data.density": 1,
 					"data.size":[800,20]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"tile01",
+			"tag":"Ground",
+			"prototype":true,
+			"transform":{
+				"scale":[
+					2,
+					2
+				]
+			},
+			"components":[
+				{
+					"type":"SpriteComponent",
+					"textureName":"Texturesheet.png",
+					"rect":[416,128,32,32],
+					"fps":15,
+					"numFramesX":12,
+					"numFramesY":8
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[64,64]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"tile02",
+			"tag":"Ground",
+			"prototype":true,
+			"transform":{
+				"scale":[
+					2,
+					2
+				]
+			},
+			"components":[
+				{
+					"type":"SpriteComponent",
+					"textureName":"Texturesheet.png",
+					"rect":[0,128,32,32],
+					"fps":15,
+					"numFramesX":12,
+					"numFramesY":8
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[64,64]
 				}
 			]
 		},
