@@ -37,12 +37,12 @@ void Game::Initialize()
 		actor->transform.position = jc::Vector2{ jc::RandomRange(0,800),jc::RandomRange(100,300) };
 		scene->Addactor(std::move(actor));
 	}
-	/*for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("bat");
-		actor->transform.position = jc::Vector2{ 0,0 };
+		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("Bat");
+		actor->transform.position = jc::Vector2{ jc::RandomRange(0,800),jc::RandomRange(100,300) };
 		scene->Addactor(std::move(actor));
-	}*/
+	}
 }
 
 void Game::Shutdown()

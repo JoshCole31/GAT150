@@ -66,8 +66,9 @@
 		},
 		{
 			"type":"Actor",
+			"prototype":true,
 			"tag":"Enemy",
-			"name":"bat",
+			"name":"Bat",
 			"transform":{
 				"position":[
 					500,
