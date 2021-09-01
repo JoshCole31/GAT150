@@ -28,7 +28,7 @@ void PlayerComponent::Update()
 	}
 	if (contacts.size() > 0 && owner->scene->engine->Get<InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == InputSystem::eKeyState::Pressed)
 	{
-		force.y -= 300;
+		force.y -= jump;
 	}
 	physicsComponent* PhysicsComponent=owner->GetComponent<physicsComponent>();
 	assert(PhysicsComponent);
@@ -73,6 +73,7 @@ bool PlayerComponent::Write(const rapidjson::Value& value) const
 bool PlayerComponent::Read(const rapidjson::Value& value)
 {
 	JSON_READ(value, speed);
+	JSON_READ(value, jump);
 	return true;
 }
 

@@ -41,6 +41,7 @@ namespace jc
 		virtual bool Read(const rapidjson::Value& value) override;
 
 	public:
+		bool active{ true };
 		bool destroy{ false };
 		std::string name;
 		std::string tag;

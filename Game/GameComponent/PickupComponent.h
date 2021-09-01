@@ -23,5 +23,4 @@ public:
 
 public:
 	float speed{ 0 };
-
 };

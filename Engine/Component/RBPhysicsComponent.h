@@ -7,6 +7,8 @@ namespace jc {
 	class RBPhysicsComponent :public physicsComponent
 	{
 	public:
+		RBPhysicsComponent() = default;
+		RBPhysicsComponent(const RBPhysicsComponent& other);
 		std::unique_ptr<Object> Clone() const { return std::make_unique<RBPhysicsComponent>(*this); }
 		~RBPhysicsComponent();
 
@@ -20,5 +22,6 @@ namespace jc {
 	public:
 		PhysicsSystem::RigidBodyData data;
 		b2Body* body{nullptr};
+
 	};
 }

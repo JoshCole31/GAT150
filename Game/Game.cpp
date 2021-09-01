@@ -26,19 +26,12 @@ void Game::Initialize()
 	jc::SeedRandom(static_cast<unsigned int>(time(nullptr)));
 	jc::SetFilePath("../Resources");
 
-	rapidjson::Document document;
-	bool success = jc::json::Load("scene.txt", document);
-	assert(success);
+	//events
+	engine->Get<jc::EventSystem>()->Subcribe("add_score", std::bind(&Game::OnAddScore, this, std::placeholders::_1));
+	//player death
 
-	scene->Read(document);
 
-	jc::Tilemap tilemap;
-	tilemap.scene = scene.get();
-	success = jc::json::Load("map.txt", document);
-	assert(success);
-	tilemap.Read(document);
-	tilemap.Create();
-
+	/*
 	for (int i = 0; i < 10; i++) 
 	{
 		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("Coin");
@@ -50,7 +43,7 @@ void Game::Initialize()
 		auto actor = jc::ObjectFactory::Instance().Create<jc::Actor>("Bat");
 		actor->transform.position = jc::Vector2{ jc::RandomRange(0,800),jc::RandomRange(100,300) };
 		scene->Addactor(std::move(actor));
-	}
+	}*/
 }
 
 void Game::Shutdown()
@@ -68,6 +61,40 @@ void Game::Update()
 	{
 		quit = true;
 	}
+	
+	switch (state)
+	{
+	case Game::eState::Rest:
+		Rest();
+		break;
+	case Game::eState::Title:
+		Title();
+		break;
+	case Game::eState::StartGame:
+		StartGame();
+		break;
+	case Game::eState::StartLevel:
+		StartLevel();
+		break;
+	case Game::eState::Level:
+		Level();
+		break;
+	case Game::eState::PlayerDead:
+		PlayerDead();
+		break;
+	case Game::eState::GameOver:
+		GameOver();
+		break;
+	default:
+		break;
+	}
+
+	//update score 
+	auto scoreActor = scene->FindActor("Score");
+	if (scoreActor)
+	{
+		scoreActor->GetComponent<jc::TextComponent>()->SetText(std::to_string(score));
+	}
 
 	scene->Update(engine->time.deltaTime);
 }
@@ -80,4 +107,86 @@ void Game::Draw()
 	scene->Draw(engine->Get<jc::Renderer>());
 
 	engine->Get<jc::Renderer>()->endFrame();
+}
+
+void Game::Rest()
+{
+	scene->RemoveAllActors();
+
+	rapidjson::Document document;
+	bool success = jc::json::Load("title.txt", document);
+	assert(success);
+
+	scene->Read(document);
+
+	state = eState::Title;
+}
+
+void Game::Title()
+{
+	if (engine->Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == jc::InputSystem::eKeyState::Pressed)
+	{
+		auto title = scene->FindActor("Title");
+		title->active = false;
+
+		state = eState::StartGame;
+	}
+
+}
+
+void Game::StartGame()
+{
+	rapidjson::Document document;
+	bool success = jc::json::Load("scene.txt", document);
+	assert(success);
+	scene->Read(document);
+
+	jc::Tilemap tilemap;
+	tilemap.scene = scene.get();
+	success = jc::json::Load("map.txt", document);
+	assert(success);
+	tilemap.Read(document);
+	tilemap.Create();
+
+	state = eState::StartLevel;
+	stateTimer = 0;
+}
+
+void Game::StartLevel()
+{
+	stateTimer += engine->time.deltaTime;
+	if (stateTimer >= 1)
+	{
+		auto player = jc::ObjectFactory::Instance().Create<jc::Actor>("Player");
+		player->transform.position = jc::Vector2{ 400,350 };
+		scene->Addactor(std::move(player));
+
+		spawnTimer = 2;
+		state = eState::Level;
+	}
+}
+
+void Game::Level()
+{
+	spawnTimer -= engine->time.deltaTime;
+	if (spawnTimer<=0)
+	{
+		spawnTimer = jc::RandomRange(2, 4);
+		auto Coin = jc::ObjectFactory::Instance().Create<jc::Actor>("Coin");
+		Coin->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f};
+		scene->Addactor(std::move(Coin));
+	}
+}
+
+void Game::PlayerDead()
+{
+}
+
+void Game::GameOver()
+{
+}
+
+void Game::OnAddScore(const jc::Event& event)
+{
+	score += std::get<int>(event.data);
 }

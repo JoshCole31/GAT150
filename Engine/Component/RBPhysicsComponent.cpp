@@ -2,6 +2,12 @@
 #include "Engine.h"
 
 namespace jc {
+
+	RBPhysicsComponent::RBPhysicsComponent(const RBPhysicsComponent& other)
+	{
+		data = other.data;
+	}
+
 	void RBPhysicsComponent::Update()
 	{
 		if (!body) 

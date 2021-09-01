@@ -4,6 +4,7 @@
 			"type":"Actor",
 			"name":"Player",
 			"tag":"Player",
+			"prototype":true,
 			"transform":{
 				"position":[
 					400,
@@ -15,7 +16,8 @@
 			"components":[
 				{
 					"type": "PlayerComponent",
-					"speed":10
+					"speed":40,
+					"jump":400
 				},
 				{
 					"type":"AudioComponent",
@@ -60,7 +62,7 @@
 					"data.lockAngle":true,
 					"data.restitution":0.1,
 					"data.gravityScale":1,
-					"data.size":[32,64]
+					"data.size":[32,62]
 				}
 			]
 		},
@@ -137,34 +139,7 @@
 		},
 		{
 			"type":"Actor",
-			"tag":"Ground",
-			"transform":{
-				"position":[
-					400,
-					550
-				],
-				"rotation":0
-			},
-			"components":[
-				{
-					"type":"SpriteComponent",
-					"textureName":"ground2.png",
-					"fps":15,
-					"numFramesX":12,
-					"numFramesY":8
-				},
-				{
-					"type":"RBPhysicsComponent",
-					"data.isDynamic":false,
-					"data.density": 1,
-					"data.size":[800,20]
-				}
-			]
-		},
-		{
-			"type":"Actor",
 			"name":"tile01",
-			"tag":"Ground",
 			"prototype":true,
 			"transform":{
 				"scale":[
@@ -176,10 +151,7 @@
 				{
 					"type":"SpriteComponent",
 					"textureName":"Texturesheet.png",
-					"rect":[416,128,32,32],
-					"fps":15,
-					"numFramesX":12,
-					"numFramesY":8
+					"rect":[416,128,32,32]
 				},
 				{
 					"type":"RBPhysicsComponent",
@@ -192,6 +164,31 @@
 		{
 			"type":"Actor",
 			"name":"tile02",
+			"tag":"ground",
+			"prototype":true,
+			"transform":{
+				"scale":[
+					2,
+					2
+				]
+			},
+			"components":[
+				{
+					"type":"SpriteComponent",
+					"textureName":"Texturesheet.png",
+					"rect":[32,0,32,32]
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[64,64]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"tile03",
 			"tag":"Ground",
 			"prototype":true,
 			"transform":{
@@ -204,10 +201,7 @@
 				{
 					"type":"SpriteComponent",
 					"textureName":"Texturesheet.png",
-					"rect":[0,128,32,32],
-					"fps":15,
-					"numFramesX":12,
-					"numFramesY":8
+					"rect":[0,224,32,32]
 				},
 				{
 					"type":"RBPhysicsComponent",
@@ -219,24 +213,74 @@
 		},
 		{
 			"type":"Actor",
-			"name":"Score",
+			"name":"tile04",
+			"prototype":true,
 			"transform":{
-				"position":[
-					60,
-					20
+				"scale":[
+					2,
+					2
 				]
 			},
 			"components":[
 				{
-					"type":"TextComponent",
-					"fontName":"Fonts/arial.ttf",
-					"fontSize":16,
-					"color":[
-						1,
-						1,
-						1
-					],
-					"text":"Hello World!"
+					"type":"SpriteComponent",
+					"textureName":"Texturesheet.png",
+					"rect":[160,32,32,32]
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[64,64]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"tile05",
+			"prototype":true,
+			"transform":{
+				"scale":[
+					2,
+					2
+				]
+			},
+			"components":[
+				{
+					"type":"SpriteComponent",
+					"textureName":"Texturesheet.png",
+					"rect":[160,192,32,32]
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[64,64]
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"tile06",
+			"tag":"ground",
+			"prototype":true,
+			"transform":{
+				"scale":[
+					2,
+					2
+				]
+			},
+			"components":[
+				{
+					"type":"SpriteComponent",
+					"textureName":"Texturesheet.png",
+					"rect":[512,0,32,32]
+				},
+				{
+					"type":"RBPhysicsComponent",
+					"data.isDynamic":false,
+					"data.density": 1,
+					"data.size":[64,64]
 				}
 			]
 		}
