@@ -12,7 +12,8 @@
 			"components":[
 				{
 					"type":"SpriteComponent",
-					"textureName":"background.png"
+					"textureName":"background.png",
+					"rect":[0,0,800,600]
 				}
 			]
 		},
@@ -21,7 +22,7 @@
 			"name":"Score",
 			"transform":{
 				"position":[
-					60,
+					70,
 					20
 				]
 			},
@@ -31,9 +32,9 @@
 					"fontName":"Fonts/arial.ttf",
 					"fontSize":16,
 					"color":[
-						1,
-						1,
-						1
+						0,
+						0,
+						0
 					],
 					"text":"0000"
 				}
@@ -52,13 +53,82 @@
 				{
 					"type":"TextComponent",
 					"fontName":"Fonts/arial.ttf",
-					"fontSize":16,
+					"fontSize":30,
 					"color":[
-						1,
-						1,
-						1
+						0,
+						0,
+						0
 					],
 					"text":"Money Grab!"
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"Lives",
+			"transform":{
+				"position":[
+					650,
+					20
+				]
+			},
+			"components":[
+				{
+					"type":"TextComponent",
+					"fontName":"Fonts/arial.ttf",
+					"fontSize":20,
+					"color":[
+						0,
+						0,
+						0
+					],
+					"text":"Lives: "
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"ScoreT",
+			"transform":{
+				"position":[
+					40,
+					20
+				]
+			},
+			"components":[
+				{
+					"type":"TextComponent",
+					"fontName":"Fonts/arial.ttf",
+					"fontSize":20,
+					"color":[
+						0,
+						0,
+						0
+					],
+					"text":"Score: "
+				}
+			]
+		},
+		{
+			"type":"Actor",
+			"name":"numLives",
+			"transform":{
+				"position":[
+					680,
+					20
+				]
+			},
+			"components":[
+				{
+					"type":"TextComponent",
+					"fontName":"Fonts/arial.ttf",
+					"fontSize":20,
+					"color":[
+						0,
+						0,
+						0
+					],
+					"text":"5"
 				}
 			]
 		}

@@ -34,6 +34,8 @@ private:
 	void GameOver();
 
 	void OnAddScore(const jc::Event& event);
+	void OnPlayerHit(const jc::Event& event);
+	void OnPlayerHeal(const jc::Event& event);
 
 public:
 	std::unique_ptr <jc::Engine> engine;
@@ -46,6 +48,10 @@ private:
 	float spawnTimer;
 	float stateTimer = 0;
 	int score = 0;
+	int lives = 1;
+	int numOfEnemys = 0;
+	int heathpacks = 0;
+
 };
 
 extern int global;

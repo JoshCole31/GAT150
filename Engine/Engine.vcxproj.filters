@@ -258,5 +258,8 @@
     <Text Include="..\Build\Resources\title.txt">
       <Filter>Resources</Filter>
     </Text>
+    <Text Include="..\Build\Resources\GameOver.txt">
+      <Filter>Resources</Filter>
+    </Text>
   </ItemGroup>
 </Project>

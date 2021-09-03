@@ -53,6 +53,11 @@ void PlayerComponent::OnCollisionEnter(const Event& event)
 	if (istring_compare(actor->tag, "enemy"))
 	{
 		owner->scene->engine->Get<AudioSystem>()->PlayAudio("hurt");
+		Event event;
+		event.name = "player_hurt";
+		event.data = 1;
+
+		owner->scene->engine->Get<EventSystem>()->Notify(event);
 	}
 }
 

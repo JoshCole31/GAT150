@@ -22,13 +22,23 @@ void PickupComponent::OnCollisionEnter(const Event& event)
 	
 	if (istring_compare(actor->tag, "Player"))
 	{
-		owner->scene->engine->Get<AudioSystem>()->PlayAudio("coin");
+		if (owner->name == "Coin")
+		{
+			owner->scene->engine->Get<AudioSystem>()->PlayAudio("coin");
+		}
 		owner->destroy = true;
 
 		Event event;
 		event.name = "add_score";
 		event.data = 10;
 
+		owner->scene->engine->Get<EventSystem>()->Notify(event);
+	}
+	if (owner->name == "Health"&& istring_compare(actor->tag, "Player"))
+	{
+		Event event;
+		event.name = "player_heal";
+		event.data = 1;
 		owner->scene->engine->Get<EventSystem>()->Notify(event);
 	}
 }

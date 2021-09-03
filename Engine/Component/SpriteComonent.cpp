@@ -27,7 +27,7 @@ namespace jc
 		if (rect.x == 0 && rect.y == 0 && rect.w == 0 && rect.h==0)
 		{
 			Vector2 size = texture->GetSize();
-			rect.w = static_cast<int>(size.x);
+			rect.x = static_cast<int>(size.x);
 			rect.y = static_cast<int>(size.y);
 		}
 

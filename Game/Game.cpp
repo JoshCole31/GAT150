@@ -28,6 +28,8 @@ void Game::Initialize()
 
 	//events
 	engine->Get<jc::EventSystem>()->Subcribe("add_score", std::bind(&Game::OnAddScore, this, std::placeholders::_1));
+	engine->Get<jc::EventSystem>()->Subcribe("player_hurt", std::bind(&Game::OnPlayerHit, this, std::placeholders::_1));
+	engine->Get<jc::EventSystem>()->Subcribe("player_heal", std::bind(&Game::OnPlayerHeal, this, std::placeholders::_1));
 	//player death
 
 
@@ -95,7 +97,11 @@ void Game::Update()
 	{
 		scoreActor->GetComponent<jc::TextComponent>()->SetText(std::to_string(score));
 	}
-
+	auto livesActor = scene->FindActor("numLives");
+	if (livesActor)
+	{
+		livesActor->GetComponent<jc::TextComponent>()->SetText(std::to_string(lives));
+	}
 	scene->Update(engine->time.deltaTime);
 }
 
@@ -119,11 +125,16 @@ void Game::Rest()
 
 	scene->Read(document);
 
+	lives = 5;
+	numOfEnemys = 0;
+	score = 0;
+	heathpacks = 0;
 	state = eState::Title;
 }
 
 void Game::Title()
 {
+	
 	if (engine->Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == jc::InputSystem::eKeyState::Pressed)
 	{
 		auto title = scene->FindActor("Title");
@@ -171,22 +182,89 @@ void Game::Level()
 	spawnTimer -= engine->time.deltaTime;
 	if (spawnTimer<=0)
 	{
-		spawnTimer = jc::RandomRange(2, 4);
+		spawnTimer = jc::RandomRange(1, 3);
 		auto Coin = jc::ObjectFactory::Instance().Create<jc::Actor>("Coin");
-		Coin->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f};
+		Coin->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f };
 		scene->Addactor(std::move(Coin));
+	}
+	if (heathpacks <= 1&& lives<=5)
+	{
+		
+		auto Health = jc::ObjectFactory::Instance().Create<jc::Actor>("Health");
+		Health->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f};
+		scene->Addactor(std::move(Health));
+		heathpacks++;
+	}
+	if (score == 10 && numOfEnemys ==0) 
+	{
+		auto enemy = jc::ObjectFactory::Instance().Create<jc::Actor>("Bat");
+		enemy->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f };
+		scene->Addactor(std::move(enemy));
+		numOfEnemys++;
+	}
+	if (score == 50 && numOfEnemys == 1)
+	{
+		auto enemy = jc::ObjectFactory::Instance().Create<jc::Actor>("Bat");
+		enemy->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f };
+		scene->Addactor(std::move(enemy));
+		numOfEnemys++;
+	}
+	if (score == 100 && numOfEnemys == 2)
+	{
+		auto enemy = jc::ObjectFactory::Instance().Create<jc::Actor>("Bat");
+		enemy->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f };
+		scene->Addactor(std::move(enemy));
+		numOfEnemys++;
+	}
+	if (score > 250 && numOfEnemys == 3)
+	{
+		auto enemy = jc::ObjectFactory::Instance().Create<jc::Actor>("Bat");
+		enemy->transform.position = jc::Vector2{ jc::RandomRange(100,700),150.0f };
+		scene->Addactor(std::move(enemy));
+		numOfEnemys++;
 	}
 }
 
 void Game::PlayerDead()
 {
+	scene->RemoveAllActors();
+
+	state = eState::GameOver;
+
+	rapidjson::Document document;
+	bool success = jc::json::Load("GameOver.txt", document);
+	assert(success);
+	scene->Read(document);
 }
 
 void Game::GameOver()
 {
+	auto gameOverscore = scene->FindActor("gameOverscore");
+	gameOverscore->GetComponent<jc::TextComponent>()->SetText(std::to_string(score));
+
+	if (engine->Get<jc::InputSystem>()->GetKeyState(SDL_SCANCODE_SPACE) == jc::InputSystem::eKeyState::Pressed)
+	{
+	  state = eState::Rest;
+	}
 }
 
 void Game::OnAddScore(const jc::Event& event)
 {
 	score += std::get<int>(event.data);
 }
+
+void Game::OnPlayerHit(const jc::Event& event)
+{
+	lives -= std::get<int>(event.data);
+	if (lives < 0)
+	{
+		state = eState::PlayerDead;
+	}
+}
+
+void Game::OnPlayerHeal(const jc::Event& event)
+{
+	lives++;
+	heathpacks--;
+}
+
